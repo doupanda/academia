@@ -8,10 +8,7 @@
           </div>
           <div class="description">
             <h3 class="info-title">Marketing</h3>
-            <p class="description">
-              We've created the marketing campaign of the website. It was a very
-              interesting collaboration.
-            </p>
+            <p class="description">We've created the marketing campaign of the website. It was a very interesting collaboration.</p>
           </div>
         </div>
         <div class="info-area info-horizontal">
@@ -20,10 +17,7 @@
           </div>
           <div class="description">
             <h3 class="info-title">Fully Coded in HTML5</h3>
-            <p class="description">
-              We've developed the website with HTML5 and CSS3. The client has
-              access to the code using GitHub.
-            </p>
+            <p class="description">We've developed the website with HTML5 and CSS3. The client has access to the code using GitHub.</p>
           </div>
         </div>
         <div class="info-area info-horizontal">
@@ -32,10 +26,7 @@
           </div>
           <div class="description">
             <h3 class="info-title">Built Audience</h3>
-            <p class="description">
-              There is also a Fully Customizable CMS Admin Dashboard for this
-              product.
-            </p>
+            <p class="description">There is also a Fully Customizable CMS Admin Dashboard for this product.</p>
           </div>
         </div>
       </div>
@@ -44,14 +35,14 @@
         <form @submit.prevent="register">
           <card class="card-register card-white">
             <template slot="header">
-              <img class="card-img" src="img/card-primary.png" alt="Card image"/>
+              <img class="card-img" src="img/card-primary.png" alt="Card image" />
               <h4 class="card-title">Register</h4>
             </template>
 
             <base-input
               v-validate="'required'"
               :error="getError('Full Name')"
-              v-model="model.fullName"
+              v-model="model.name"
               name="Full Name"
               placeholder="Full Name"
               addon-left-icon="tim-icons icon-single-02"
@@ -81,13 +72,9 @@
             >
             </base-input>
 
-            <base-checkbox class="text-left">
-              I agree to the <a href="#something">terms and conditions</a>.
-            </base-checkbox>
+            <base-checkbox class="text-left"> I agree to the <a href="#something">terms and conditions</a>. </base-checkbox>
 
-            <base-button native-type="submit" slot="footer" type="primary" round block size="lg">
-              Get Started
-            </base-button>
+            <base-button native-type="submit" slot="footer" type="primary" round block size="lg"> Get Started </base-button>
           </card>
         </form>
       </div>
@@ -95,21 +82,21 @@
   </div>
 </template>
 <script>
-import { BaseCheckbox } from '@/components';
+import { BaseCheckbox } from "@/components";
 
 export default {
-  name: 'register-page',
-  layout: 'auth',
+  name: "register-page",
+  layout: "auth",
   components: {
-    BaseCheckbox
+    BaseCheckbox,
   },
   data() {
     return {
       model: {
-        email: '',
-        fullName: '',
-        password: ''
-      }
+        email: "",
+        fullName: "",
+        password: "",
+      },
     };
   },
   methods: {
@@ -119,10 +106,46 @@ export default {
     async register() {
       let isValidForm = await this.$validator.validateAll();
       if (isValidForm) {
-        // TIP use this.model to send it to api and perform register call
+        this.$axios
+          .post("/user-register", this.model)
+          .then((res) => {
+            //success! - Usuario creado.
+            if (res.data.status == "success") {
+              this.$notify({
+                type: "success",
+                icon: "tim-icons icon-check-2",
+                message: "Exito! Redirigiendo a login... Ya puedes loguearte",
+              });
+
+              setTimeout(() => {
+                this.$router.push("/login");
+              }, 1500);
+
+              return;
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+            if (e.response.data.error.errors.email.kind == "unique") {
+              this.$notify({
+                type: "danger",
+                icon: "tim-icons icon-alert-circle-exc",
+                message: "Ya existe un usuario con ese email... :(",
+              });
+              return;
+            } else {
+              this.$notify({
+                type: "danger",
+                icon: "tim-icons icon-alert-circle-exc",
+                message: "Error creando el usuario... :(",
+              });
+
+              return;
+            }
+          });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style></style>

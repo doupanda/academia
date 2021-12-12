@@ -185,6 +185,8 @@ let bigChartDatasetOptions = {
 }
 
 export default {
+  middleware: 'auth',
+  auth: 'guest',
   name: 'dashboard',
   components: {
     LineChart,

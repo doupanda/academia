@@ -65,23 +65,14 @@ export default {
   */
   modules: [
     '@nuxtjs/pwa',
-    'nuxt-i18n'
+    '@nuxtjs/auth-next',
+    '@nuxtjs/axios'
   ],
-  i18n: {
-    locales: [
-      {
-        code: 'en',
-        file: 'en.js'
-      },
-      {
-        code: 'ar',
-        file: 'ar.js'
-      }
-    ],
-    lazy: true,
-    langDir: 'lang/',
-    defaultLocale: 'en',
+
+  axios: {
+    baseURL: process.env.BASE_URL
   },
+
   /*
   ** Build configuration
   */
@@ -102,6 +93,37 @@ export default {
           }
         ]
       ]
+    }
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'token',
+          global: true,
+          required: true,
+          type: '',
+          maxAge: 2592000
+        },
+        user: {
+          property: 'userData',
+          autoFetch: true
+        },
+        endpoints: {
+          login: { url: '/user-login', method: 'post' },
+          user: { url: '/user-get', method: 'get' },
+          logout: { url: '/user-logout', method: 'post' }
+        },
+        redirect: {
+          login: '/login',
+          logout: '/',
+          callback: '/login',
+          home: '/miscursos'
+        },
+        tokenType: ''
+
+      }
     }
   }
 }

@@ -34,14 +34,10 @@
           </div>
 
           <div slot="footer">
-            <base-button native-type="submit" type="primary" class="mb-3" size="lg" block>
-              Get Started
-            </base-button>
+            <base-button native-type="submit" type="primary" class="mb-3" size="lg" block> Get Started </base-button>
             <div class="pull-left">
               <h6>
-                <nuxt-link class="link footer-link" to="/register">
-                  Create Account
-                </nuxt-link>
+                <nuxt-link class="link footer-link" to="/register"> Create Account </nuxt-link>
               </h6>
             </div>
 
@@ -56,16 +52,22 @@
 </template>
 <script>
 export default {
-  name: 'login-page',
-  layout: 'auth',
+  middleware: "auth",
+  name: "login-page",
+  layout: "auth",
   data() {
     return {
       model: {
-        email: '',
-        password: '',
-        subscribe: true
-      }
+        email: "",
+        password: "",
+        subscribe: true,
+      },
     };
+  },
+  mounted() {
+    this.$auth.onRedirect((to, from) => {
+      return '/miscursos'
+    });
   },
   methods: {
     getError(fieldName) {
@@ -74,10 +76,25 @@ export default {
     async login() {
       let isValidForm = await this.$validator.validateAll();
       if (isValidForm) {
-        // TIP use this.model to send it to api and perform login call
+        try {
+          let response = await this.$auth.loginWith("local", {
+            data: this.model,
+          });
+
+          //this.$auth.setUser(response.data.userData);
+          //window.location.href = '/';
+          return;
+        } catch (error) {
+          console.log(error);
+          this.$notify({
+            type: "danger",
+            icon: "tim-icons icon-alert-circle-exc",
+            message: "Alguno de los datos es incorrecto",
+          });
+        }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style>
