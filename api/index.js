@@ -23,6 +23,7 @@ app.use(cors());
 //routes
 
 app.use("/api", require("./routes/users.js"));
+app.use("/api", require("./routes/courses.js"));
 
 module.exports = app;
 
