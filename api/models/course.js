@@ -8,7 +8,7 @@ const courseSchema = new Schema({
     subtitle: { type: String, required: [true] },
     shortDescription: { type: String, required: [true] },
     description: { type: String, required: [true] },
-    image: { type: String, required: [true] },
+    image: { type: String },
     url: { type: String, required: [true], unique: true },
     time: {
         type: Number,

@@ -3,6 +3,8 @@
 
     <div class="col-12">
       {{course}}
+      <br>
+      {{alumnos}}
     </div>
 
   </div>
@@ -14,9 +16,15 @@
 
 export default {
 
+data(){
+  return {
+    alumnos: 24000
+  }
+},
 
   async asyncData({ params, $axios, store }) {
-    const course = await $axios.get("/course", {
+   
+   const course = await $axios.get("/course", {
       params: { url: params.curso }
     });
 
@@ -24,6 +32,12 @@ export default {
       course: course.data
     };
   },
+
+  mounted(){
+    console.log(this.course)
+  }
+
+
 
 }
 </script>
