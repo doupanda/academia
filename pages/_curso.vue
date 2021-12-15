@@ -22,8 +22,8 @@
       <card type="chart">
           <h1 class="card-title">Trailer</h1>
           <hr>
-                  <iframe :src="idVideo" width="800" height="550" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
-                  {{idVideo}}
+                  <iframe :src="url" width="800" height="550" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                  {{url}}
                 
       </card>
     </div>
@@ -98,7 +98,7 @@ data(){
   async asyncData({ params, $axios, store }) {
    
    const course = await $axios.get("/course", {
-      params: { url: params.curso }
+      params: { url: "test" }
     });
 
     return {
