@@ -31,7 +31,52 @@ router.get("/course", async (req, res) => {
     } catch (error) {
       console.log(error);
     }
-  });
+});
+  
+//INSERTA CURSO
+router.post("/course-insert", async (req, res) => {
+  try {
+ 
+    const title = req.body.title;
+    const subtitle = req.body.subtitle;
+    const shortDescription = req.body.shortDescription;
+    const description = req.body.description;
+    const image = req.body.image;
+    const url = req.body.url;
+    const price = req.body.price;
+
+    const newCourse = {
+     
+    title: title,
+    subtitle: subtitle,
+    shortDescription:shortDescription ,
+    description: description ,
+    image: image ,
+    url: url,
+    price: price
+  
+    };
+
+    const user = await Course.create(newCourse);
+
+    const response = {
+      status: "success"
+    };
+
+    res.status(200).json(response);
+  } catch (error) {
+
+    console.log(error);
+
+    const response = {
+      status: "error",
+      error: error
+    };
+
+    return res.status(500).json(response);
+  }
+});
+
 
 
 module.exports = router;

@@ -10,6 +10,7 @@ const courseSchema = new Schema({
     description: { type: String, required: [true] },
     image: { type: String },
     url: { type: String, required: [true], unique: true },
+    price: {type: Number},
     time: {
         type: Number,
         default: Date.now
