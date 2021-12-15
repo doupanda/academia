@@ -2,6 +2,7 @@
   <div class="row">
     <div class="col-12">
       {{course}}
+      <hr>
     </div>
     
     <div v-for="course in course" class="col-lg-4" :key="course._id" >
@@ -9,7 +10,11 @@
         <img :src="course.image" style="height: 200px; width:100%">  
         <hr>
         <p>{{course.title}}</p>
-        <nuxt-link :to="course.url" type="info" size="sm">Ver Curso</nuxt-link>
+        
+        <nuxt-link :to="course.url">
+         <base-button  type="info" size="sm">Ver Curso</base-button>
+        </nuxt-link>
+        
         <span style="color: green; font-size: large" class="currency">{{course.price}}</span>
         <span style="color: gray; font-size: large">USD</span>
                           
@@ -40,15 +45,6 @@ export default {
    
   },
   methods: {
-    verCurso()
-    {
-       this.$notify({
-              type: "danger",
-              icon: "tim-icons icon-alert-circle-exc",
-              message: "Proximamente detalle del curso"
-            });
-
-    }
   },
 };
 </script>
