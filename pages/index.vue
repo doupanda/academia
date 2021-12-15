@@ -9,7 +9,7 @@
         <img :src="course.image" style="height: 200px; width:100%">  
         <hr>
         <p>{{course.title}}</p>
-        <base-button @click="verCurso()" type="info" size="sm">Ver Curso</base-button>
+        <nuxt-link :to="course.url" type="info" size="sm">Ver Curso</nuxt-link>
         <span style="color: green; font-size: large" class="currency">{{course.price}}</span>
         <span style="color: gray; font-size: large">USD</span>
                           

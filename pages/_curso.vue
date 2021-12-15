@@ -98,7 +98,7 @@ data(){
   async asyncData({ params, $axios, store }) {
    
    const course = await $axios.get("/course", {
-      params: { url: "test" }
+      params: { url: params.curso }
     });
 
     return {
