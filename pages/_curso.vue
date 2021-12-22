@@ -64,37 +64,28 @@
 
     <div class="col-lg-6">
       <card type="chart">
-        <h1 class="card-title">Contenido del curso</h1>
-        <!-- {{ secciones }} -->
-        <hr />
-        <div class="row" style="padding: 10px">
-          <div class="col-sm-12 container-menu">
-            <ul class="menu">
-              <li v-for="secciones in secciones" :key="secciones.id">
-                <a>
-                  <i class="icon izquier fa fa-bars"></i>
-                  {{ secciones.nombre }}
-                  <i class="icon derech fa fa-chevron-down"></i>
-                </a>
-                <ul>
-                  <li v-for="clases in secciones.clases" :key="clases.id">
-                    <a>
-                      {{ clases.nombreClase }}
-                      <base-button
-                        v-if="clases.estado"
-                        @click="cambiar(clases.urlVideo)"
-                        class="button-course fa fa-play"
-                        type="info"
-                        size="sm"
-                        >Ver Contenido</base-button
-                      >
-                    </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <ul class="list-container">
+          <li v-for="secciones in secciones" class="item" :key="secciones.id">
+            <p class="btn-item active">{{ secciones.nombre }}</p>
+            <div class="item-content">
+              <ul>
+                <li v-for="clases in secciones.clases" :key="clases.id">
+                  <a>
+                    {{ clases.nombreClase }}
+                    <base-button
+                      v-if="clases.estado"
+                      @click="cambiar(clases.urlVideo)"
+                      class="button-course fa fa-play"
+                      type="info"
+                      size="sm"
+                      >Ver Contenido</base-button
+                    >
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
       </card>
     </div>
 
@@ -240,6 +231,7 @@ export default {
   mounted() {
     this.idVideoTrailer = this.urlDefect + this.urlVimeo;
     this.contentVideo = this.urlDefect + this.urlContent;
+    this.events();
   },
   methods: {
     cambiar(url) {
@@ -248,62 +240,73 @@ export default {
       console.log("Id del vimeo -> " + this.urlContent);
       console.log(this.contentVideo);
     },
+    events() {
+      let btnPrueba = document.querySelectorAll(".item .btn-item");
+
+      for (let i = 0; i < btnPrueba.length; i++) {
+        btnPrueba[i].addEventListener("click", function (e) {
+          let btn = e.target;
+          if (btn.className == "btn-item active") {
+            for (let i = 0; i < btnPrueba.length; i++) {
+              btnPrueba[i].classList.remove("active");
+            }
+          } else {
+            for (let i = 0; i < btnPrueba.length; i++) {
+              btnPrueba[i].classList.remove("active");
+            }
+            btn.classList.add("active");
+          }
+        });
+      }
+    },
   },
 };
 </script>
 <style>
-.container-menu a {
-  margin: 5px;
-  display: inline-block;
-  line-height: 18px;
-  text-decoration: none;
-  color: #fff;
+/* Estilos css barra acordion  */
+.list-container {
+  padding: 5px;
 }
-
-.container-menu .menu {
-  width: 100%;
-}
-
-.container-menu ul {
-  list-style: none;
-}
-
-.container-menu .menu li a {
-  color: #494949;
+.list-container li a {
+  font-weight: bold;
   display: block;
   padding: 10px 15px;
-  background: #e9e9e9;
 }
-
-.container-menu .menu li a:hover {
+.list-container li a:hover {
   color: #fff;
   background: #1a95d5;
 }
-
-.icon {
-  font-size: 20px;
+.btn-item {
+  background: rgb(38, 41, 42);
+  display: block;
+  color: white;
+  padding: 5px;
+  font-weight: bold;
+  border-bottom: 2px solid rgb(107, 179, 113);
 }
-.container-menu .menu .icon.izquier {
-  float: left;
-  margin-right: 10px;
+.btn-item.active {
+  background: #2dce89;
 }
-
-.container-menu .menu .icon.derech {
+.btn-item:after {
+  content: "\002b";
   float: right;
-  margin-left: 10px;
 }
-
-.container-menu .menu ul li a {
-  background: #424242;
-  color: #e9e9e9;
+.btn-item.active:after {
+  content: "\02212";
+  float: right;
 }
-
+.item-content {
+  overflow: hidden;
+  max-height: 0px;
+  opacity: 0;
+  transition: 0.2s ease-in-out;
+}
+.active + .item-content {
+  max-height: 100%;
+  opacity: 1;
+}
 .button-course {
   float: right;
   bottom: 10px;
 }
-
-/* .container-menu .menu ul {
-  display:none;
-} */
 </style>
