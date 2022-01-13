@@ -13,7 +13,8 @@ router.get("/courses", async (req, res) => {
         
         const courses = await Course.find();
   
-        return res.json(courses);
+      return res.json(courses);
+      
   
     } catch (error) {
       console.log(error);
@@ -33,7 +34,6 @@ router.get("/course", async (req, res) => {
     }
 });
   
-//INSERTA CURSO
 router.post("/course-insert", async (req, res) => {
   try {
  
@@ -44,6 +44,7 @@ router.post("/course-insert", async (req, res) => {
     const image = req.body.image;
     const url = req.body.url;
     const price = req.body.price;
+    const idTrailer = req.body.idTrailer;
 
     const newCourse = {
      
@@ -53,7 +54,8 @@ router.post("/course-insert", async (req, res) => {
     description: description ,
     image: image ,
     url: url,
-    price: price
+    price: price,
+    idTrailer: idTrailer
   
     };
 
@@ -76,7 +78,6 @@ router.post("/course-insert", async (req, res) => {
     return res.status(500).json(response);
   }
 });
-
 
 
 module.exports = router;
