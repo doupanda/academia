@@ -11,8 +11,10 @@ import Section from '../models/section.js';
 
 //MASTER QUERY
 router.get('/courses-master-query', async (req, res) => {
+
 	//Recuperamos Cursos Secciones y Lecciones en paraelos (sin await)
-	var courses = Course.find({});
+	var courses = Course.find({url: req.query.url});
+	console.log(courses);
 	var sections = Section.find({});
 	var lessons = Lesson.find({});
 
