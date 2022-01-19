@@ -11,6 +11,8 @@ const courseSchema = new Schema({
     image: { type: String },
     url: { type: String, required: [true], unique: true },
     price: { type: Number },
+    
+    //trailerId
     idTrailer: { type: String, required: [true] },
     time: {
         type: Number,
