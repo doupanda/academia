@@ -11,9 +11,8 @@ import Section from '../models/section.js';
 
 //MASTER QUERY
 router.get('/courses-master-query', async (req, res) => {
-
 	//Recuperamos Cursos Secciones y Lecciones en paraelos (sin await)
-	var courses = Course.find({url: req.query.url});
+	var courses = Course.find({ url: req.query.url });
 	console.log(courses);
 	var sections = Section.find({});
 	var lessons = Lesson.find({});
@@ -26,14 +25,14 @@ router.get('/courses-master-query', async (req, res) => {
 	lessons = lessons.map((lesson) => lesson.toJSON());
 
 	//clases en secciones, secciones en cursos
-  //recorro los cursos
-  courses.forEach((course) => {
-    //filtro las secciones que pertenecen a este curso y las anido en course.sections
-    course.sections = sections.filter((section) => section.idCourse == course._id);
-    course.sections.forEach((section) => {
-      section.lessons = lessons.filter((lesson) => lesson.idSection == section._id);
-    });
-  });
+	//recorro los cursos
+	courses.forEach((course) => {
+		//filtro las secciones que pertenecen a este curso y las anido en course.sections
+		course.sections = sections.filter((section) => section.idCourse == course._id);
+		course.sections.forEach((section) => {
+			section.lessons = lessons.filter((lesson) => lesson.idSection == section._id);
+		});
+	});
 	res.send(courses);
 });
 

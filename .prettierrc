@@ -2,7 +2,7 @@
   "tabWidth": 2,
   "arrowParents": "avoid",
   "useTabs": true,
-  "trailingComma": "all",
+  "trailingComma": "none",
   "singleQuote": true,
   "semi": true,
   "printWidth": 100,
